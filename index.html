@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cricket Match Predictor</title>
+</head>
+<body>
+    <h2>Cricket Match Predictor</h2>
+    <input type="text" id="team1" placeholder="Enter Team 1">
+    <input type="text" id="team2" placeholder="Enter Team 2">
+    <button onclick="getPrediction()">Predict</button>
+    <p id="result"></p>
+
+    <script>
+        function getPrediction() {
+            let team1 = document.getElementById("team1").value;
+            let team2 = document.getElementById("team2").value;
+
+            fetch("backend.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `team1=${team1}&team2=${team2}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = 
+                    `${data.team1} vs ${data.team2}: ${data.winChance}`;
+            })
+            .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>
